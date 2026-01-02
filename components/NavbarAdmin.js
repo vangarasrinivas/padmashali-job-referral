@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 
 
 const NavbarAdmin = () => {
@@ -20,7 +19,7 @@ const NavbarAdmin = () => {
             : "text-white";
 
 
-;
+    ;
 
     return (
 
@@ -34,11 +33,10 @@ const NavbarAdmin = () => {
                             // onClick={() => setRouteName("home")}
                             className="text-white font-bold text-xl cursor-pointer flex items-center gap-2"
                         >
-                            <Image
+                            <img
                                 src="/padmasali-logo.png"
                                 alt="Padmashali Logo"
-                                width={80}
-                                height={60}
+                                className="w-20 h-12"
                             />
 
                             Padmashali Job Referral
@@ -56,7 +54,7 @@ const NavbarAdmin = () => {
                                 {item.name}
                             </a>
                         ))}
-                       
+
                     </div>
 
                     {/* Mobile Menu Button */}

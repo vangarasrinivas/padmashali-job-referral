@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import padmashaliImage from '../public/padmasali-logo.png';
-import Image from "next/image";
 
 const Navbar = () => {
     const [routeName, setRouteName] = useState("home");
@@ -21,7 +19,7 @@ const Navbar = () => {
             : "text-white";
 
     return (
-       <nav className="fixed top-0 left-0 w-full text-white z-[100] bg-[#9743e4] shadow-md">
+        <nav className="fixed top-0 left-0 w-full text-white z-[100] bg-[#9743e4] shadow-md">
             <div className="max-w-6xl mx-auto px-4">
                 <div className="flex items-center  justify-between h-16">
                     {/* Brand */}
@@ -32,11 +30,10 @@ const Navbar = () => {
                             onClick={() => setRouteName("home")}
                             className="text-white font-bold text-xl cursor-pointer flex items-center gap-2"
                         >
-                            <Image
+                            <img
                                 src="/padmasali-logo.png"
                                 alt="Padmashali Logo"
-                                width={80}
-                                height={60}
+                                className="w-20 h-12"
                             />
 
                             Padmashali Job Referral

@@ -40,11 +40,10 @@ export default function AboutPage() {
                                 // onClick={() => setRouteName("home")}
                                 className="text-white font-bold text-xl cursor-pointer flex items-center gap-2 "
                             >
-                                <Image
+                                <img
                                     src="/padmasali-logo.png"
                                     alt="Padmashali Logo"
-                                    width={80}
-                                    height={60}
+                                    className="w-20 h-12"
                                 />
 
                                 Padmashali Job Referral
