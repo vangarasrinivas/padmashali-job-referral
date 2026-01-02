@@ -17,8 +17,8 @@ const JobCard = ({ job }) => {
   const skills =
     Array.isArray(job?.skills)
       ? job.skills
-          .map((skill) => skill?.trim())
-          .filter(Boolean)
+        .map((skill) => skill?.trim())
+        .filter(Boolean)
       : [];
 
   return (
@@ -64,12 +64,10 @@ const JobCard = ({ job }) => {
           </div>
         )}
 
-        {job?.salary && (
-          <div className="flex items-center gap-1">
-            <FaRupeeSign className="text-gray-400" />
-            <span>{job.salary}</span>
-          </div>
-        )}
+        <div className="flex items-center gap-1">
+          <FaRupeeSign className="text-gray-400" />
+          <span>{job?.salary?.trim() ? job.salary : "Not Disclosed"}</span>
+        </div>
 
         {job?.location && (
           <div className="flex items-center gap-1">
@@ -127,9 +125,8 @@ const JobCard = ({ job }) => {
         >
           {expanded ? "View less" : "View more"}
           <FaChevronDown
-            className={`transition-transform duration-300 ${
-              expanded ? "rotate-180" : ""
-            }`}
+            className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""
+              }`}
           />
         </button>
       )}

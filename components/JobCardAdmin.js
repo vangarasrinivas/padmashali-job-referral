@@ -69,12 +69,10 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
                     </div>
                 )}
 
-                {job.salary && (
-                    <div className="flex items-center gap-1">
-                        <FaRupeeSign className="text-gray-400" />
-                        <span>{job.salary}</span>
-                    </div>
-                )}
+                <div className="flex items-center gap-1">
+                    <FaRupeeSign className="text-gray-400" />
+                    <span>{job?.salary?.trim() ? job.salary : "Not Disclosed"}</span>
+                </div>
 
                 {job.location && (
                     <div className="flex items-center gap-1">
