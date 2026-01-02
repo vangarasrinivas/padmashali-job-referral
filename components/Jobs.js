@@ -111,7 +111,7 @@ const Jobs = () => {
         )}
 
         {/* Job List */}
-        {loading && jobs.length === 0 ? (
+        {!loading && jobs.length === 0 ? (
           <div className="text-center py-4 text-gray-500">No jobs found</div>
         ) : (
           <div className="flex flex-col gap-4">

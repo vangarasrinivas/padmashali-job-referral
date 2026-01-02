@@ -14,21 +14,21 @@ export default function Home() {
         <section
           id="home"
           className="
-    mt-6
-    rounded-2xl
-    bg-white
-    border border-gray-200
-    shadow-sm
-  "
+          mt-6
+          rounded-2xl
+          bg-white
+          border border-gray-200
+          shadow-sm
+        "
         >
           <div className="px-6 py-8 sm:px-10 sm:py-12 text-center">
             <h1
               className="
-        text-xl sm:text-2xl md:text-3xl
-        font-semibold
-        text-gray-900
-        leading-snug
-      "
+              text-xl sm:text-2xl md:text-3xl
+              font-semibold
+              text-gray-900
+              leading-snug
+            "
             >
               Welcome to{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9743e4] to-[#7a33c9]">

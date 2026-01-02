@@ -18,7 +18,7 @@ const NavbarAdmin = () => {
     "text-white relative group"; // all links normal weight
 
   return (
-    <nav className="sticky top-0  text-white z-[100] bg-[#9743e4] shadow-md">
+    <nav className="sticky top-0  text-white z-[50] bg-[#9743e4] shadow-md">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
