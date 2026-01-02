@@ -32,3 +32,34 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: slideInRight 0.4s ease-out forwards;
+}
+
+.toast-exit {
+  animation: slideOutRight 0.3s ease-in forwards;
+}

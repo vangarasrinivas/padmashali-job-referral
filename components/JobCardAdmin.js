@@ -137,12 +137,13 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
                     <div
                         className={`
               relative overflow-hidden transition-all duration-300
-              ${expanded ? "max-h-96 mt-4" : "max-h-20 mt-3"}
+              ${expanded ? "max-h-96 mt-4" : "max-h-15 mt-3"}
             `}
                     >
-                        <p className="text-sm text-gray-600 leading-relaxed">
-                            {job.description}
-                        </p>
+                        <div
+                            className="text-sm text-gray-600 leading-relaxed [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
+                            dangerouslySetInnerHTML={{ __html: job.description }}
+                        />
 
                         {!expanded && (
                             <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent" />

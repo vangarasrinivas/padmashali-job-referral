@@ -6,15 +6,25 @@ import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { db, auth } from "@/lib/firebase";
 import Image from "next/image";
+import ToastAlert from "@/components/ToastAlert";
+
 export default function AdminLogin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [alert, setAlert] = useState(null);
+    // { type: "success" | "error", message: string }
+
+    /* ---------------- ALERT ---------------- */
+    const showAlert = (type, message) => {
+        setAlert({ type, message });
+    };
+
 
     const handleLogin = async () => {
         if (!email || !password) {
-            alert("Please enter email and password");
+            showAlert("error", "Please enter email and password");
             return;
         }
 
@@ -27,13 +37,15 @@ export default function AdminLogin() {
             const adminSnap = await getDoc(adminRef);
 
             if (!adminSnap.exists()) {
-                alert("Access denied");
+                showAlert("error", "Access denied. Not an admin user.");
+
                 return;
             }
 
             router.push("/admin");
         } catch (err) {
-            alert(err.message);
+            // alert(err.message);
+            showAlert("error", "In valid Credentials" || "Access denied. Not an admin user.");
         } finally {
             setLoading(false);
         }
@@ -59,6 +71,13 @@ export default function AdminLogin() {
                     </a>
                 </div>
             </nav>
+            {alert && (
+                <ToastAlert
+                    type={alert.type}
+                    message={alert.message}
+                    onClose={() => setAlert(null)}
+                />
+            )}
             <div className="h-screen flex items-center justify-center bg-gray-100 px-4">
                 <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">

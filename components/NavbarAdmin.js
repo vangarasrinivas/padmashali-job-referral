@@ -2,18 +2,16 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
-import { FiLogOut } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+
 
 const NavbarAdmin = () => {
-    const [routeName, setRouteName] = useState("home");
+    const [routeName, setRouteName] = useState("admin");
     const [menuOpen, setMenuOpen] = useState(false);
-    const router = useRouter();
-
     const navItems = [
-        { name: "Home", href: "#home" },
+        { name: "Home", href: "/" },
+        { name: "About", href: "/about" },
+        { name: "Jobs", href: "/" },
+        { name: "Admin", href: "/admin" },
     ];
 
     const routeFunc = (navItem) =>
@@ -22,15 +20,12 @@ const NavbarAdmin = () => {
             : "text-white";
 
 
-    const handleLogout = async () => {
-        await signOut(auth);
-        router.replace("/"); // ✅ Redirect to home
-    };
+;
 
     return (
 
-        <nav className="text-white bg-[#9743e4] py-3 sticky top-0 shadow-md">
-            <div className="max-w-7xl mx-auto px-4">
+        <nav className="text-white bg-[#9743e4] py-3 sticky top-0 shadow-md z-20">
+            <div className="max-w-6xl mx-auto px-4">
                 <div className="flex items-center justify-between">
 
                     <div className="flex-shrink-0">
@@ -61,13 +56,7 @@ const NavbarAdmin = () => {
                                 {item.name}
                             </a>
                         ))}
-                        <button
-                            onClick={() => handleLogout()}
-                            className="text-white hover:text-gray-200 bg-red-700 px-2 rounded-md cursor-pointer flex items-center gap-2"
-                        >
-                            <FiLogOut size={18} />
-                            <span>Logout</span>
-                        </button>
+                       
                     </div>
 
                     {/* Mobile Menu Button */}

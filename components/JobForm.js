@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const JobDescriptionEditor = dynamic(() => import("./JobDescriptionEditor"), { ssr: false });
 
 const inputClass =
   "w-full bg-gray-50 border border-gray-300 rounded-md px-3 py-2 text-sm " +
@@ -45,6 +48,10 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleDescriptionChange = (value) => {
+    setForm({ ...form, description: value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -56,7 +63,6 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Job Title */}
         <div className="flex flex-col">
@@ -102,19 +108,18 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
           <label className={labelClass}>Experience</label>
           <input name="experience" value={form.experience} onChange={handleChange} className={inputClass} />
         </div>
+
+        {/* Qualification */}
         <div className="flex flex-col">
           <label className={labelClass}>Qualification</label>
           <input name="qualification" value={form.qualification} onChange={handleChange} className={inputClass} />
         </div>
-
 
         {/* Salary */}
         <div className="flex flex-col">
           <label className={labelClass}>Salary</label>
           <input name="salary" value={form.salary} onChange={handleChange} className={inputClass} />
         </div>
-
-
 
         {/* Apply URL */}
         <div className="flex flex-col">
@@ -141,17 +146,10 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
           />
         </div>
 
-        {/* Description */}
+        {/* Job Description */}
         <div className="flex flex-col lg:col-span-3">
           <label className={labelClass}>Job Description</label>
-          <textarea
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            rows={5}
-            className={`${inputClass} resize-none`}
-            placeholder="Enter job responsibilities, requirements, etc."
-          />
+          <JobDescriptionEditor content={form.description} onChange={handleDescriptionChange} />
         </div>
       </div>
 
