@@ -5,7 +5,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { db, auth } from "@/lib/firebase";
-import Image from "next/image";
 import ToastAlert from "@/components/ToastAlert";
 
 export default function AdminLogin() {
@@ -60,11 +59,10 @@ export default function AdminLogin() {
                         // onClick={() => setRouteName("home")}
                         className="text-white font-bold text-xl cursor-pointer flex items-center gap-2 "
                     >
-                        <Image
+                        <img
                             src="/padmasali-logo.png"
                             alt="Padmashali Logo"
-                            width={80}
-                            height={60}
+                            className="w-20 h-12"
                         />
 
                         Padmashali Job Referral

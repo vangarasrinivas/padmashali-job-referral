@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import ContactSection from "@/components/ContactSection";
 import BackToTop from "../../components/BackToTop";
-
+import Link from "next/link";
 export default function AboutPage() {
     const [routeName, setRouteName] = useState("about");
     const [menuOpen, setMenuOpen] = useState(false);
@@ -24,49 +24,60 @@ export default function AboutPage() {
         { name: "Contact", href: "#contact" },
     ];
 
-    const routeFunc = (navItem) =>
-        routeName === navItem
-            ? "text-white relative after:block after:w-full after:h-0.5 after:bg-white after:mt-1"
-            : "text-white";
+    const routeFunc = (navItem) => "text-white relative group";
     return (
         <section>
-            <nav className="text-white bg-[#9743e4] py-3 sticky top-0 shadow-md z-50">
-                <div className="max-w-6xl mx-auto px-4">
 
-                    <div className="flex items-center  justify-between h-10">
+            (
+            <nav className="fixed top-0 left-0 w-full text-white z-[50] bg-[#9743e4] shadow-md">
+                <div className="max-w-6xl mx-auto px-4">
+                    <div className="flex items-center justify-between h-16">
+                        {/* Brand */}
                         <div>
-                            <a
+                            <Link
                                 href="/"
-                                // onClick={() => setRouteName("home")}
-                                className="text-white font-bold text-xl cursor-pointer flex items-center gap-2 "
+                                onClick={() => setRouteName("home")}
+                                className="text-white text-xl cursor-pointer flex items-center gap-2"
                             >
                                 <img
                                     src="/padmasali-logo.png"
                                     alt="Padmashali Logo"
                                     className="w-20 h-12"
                                 />
-
                                 Padmashali Job Referral
-                            </a>
+                            </Link>
                         </div>
+
                         {/* Desktop Menu */}
-                        <div className="hidden md:flex justify-center gap-x-8">
+                        <div className="hidden md:flex justify-center gap-x-8 items-center">
                             {navItems.map((item) => (
-                                <a
+                                <Link
                                     key={item.name}
                                     href={item.href}
                                     onClick={() => setRouteName(item.name.toLowerCase())}
-                                    className={routeFunc(item.name.toLowerCase())}
+                                    className={`${routeFunc(item.name.toLowerCase())} inline-block relative`}
                                 >
                                     {item.name}
-                                </a>
+                                    <span
+                                        className={`block h-0.5 bg-white absolute bottom-0 left-0
+                    ${routeName === item.name.toLowerCase() ? "w-full" : "w-0 group-hover:w-full"}
+                    transition-all duration-300 ease-in-out`}
+                                    ></span>
+                                </Link>
                             ))}
-                            <div>
-                                <a className="text-white" href="/admin">Admin</a>
-                            </div>
+                            <Link
+                                href="/admin"
+                                onClick={() => setRouteName("admin")}
+                                className={`inline-block relative`}
+                            >
+                                Admin
+                                <span
+                                    className={`block h-0.5 bg-white absolute bottom-0 left-0
+                  ${routeName === "admin" ? "w-full" : "w-0 group-hover:w-full"}
+                  transition-all duration-300 ease-in-out`}
+                                ></span>
+                            </Link>
                         </div>
-
-
 
                         {/* Mobile Menu Button */}
                         <div className="md:hidden">
@@ -101,7 +112,49 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Mobile Menu */}
+                {menuOpen && (
+                    <div className="md:hidden bg-[#9743e4] text-white">
+                        <div className="px-4 pt-2 pb-3 space-y-1 flex flex-col">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    onClick={() => {
+                                        setRouteName(item.name.toLowerCase());
+                                        setMenuOpen(false);
+                                    }}
+                                    className={`py-2 px-3 ${routeFunc(item.name.toLowerCase())} inline-block relative`}
+                                >
+                                    {item.name}
+                                    <span
+                                        className={`block h-0.5 bg-white absolute bottom-0 left-0
+                    ${routeName === item.name.toLowerCase() ? "w-full" : "w-0 group-hover:w-full"}
+                    transition-all duration-300 ease-in-out`}
+                                    ></span>
+                                </Link>
+                            ))}
+                            <Link
+                                href="/admin"
+                                onClick={() => {
+                                    setRouteName("admin");
+                                    setMenuOpen(false);
+                                }}
+                                className={`py-2 px-3 inline-block relative`}
+                            >
+                                Admin
+                                <span
+                                    className={`block h-0.5 bg-white absolute bottom-0 left-0
+                  ${routeName === "admin" ? "w-full" : "w-0 group-hover:w-full"}
+                  transition-all duration-300 ease-in-out`}
+                                ></span>
+                            </Link>
+                        </div>
+                    </div>
+                )}
             </nav>
+
             <div className="min-h-screen bg-gradient-to-br from-[#f7f5ff] via-white to-[#f1ecff]">
                 <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-5 pb-10">
 
