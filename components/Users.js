@@ -82,33 +82,42 @@ export default function AdminUsersPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y">
-                        {users.map((u) => (
-                            <tr
-                                key={u.id}
-                                className="hover:bg-gray-50 transition-colors duration-200"
-                            >
-                                <td className="px-4 py-3 font-medium text-gray-800">{u.fullName}</td>
-                                <td className="px-4 py-3 text-gray-600">{u.email}</td>
-                                <td className="px-4 py-3 text-gray-600">{u.phone}</td>
-                                <td className="px-4 py-3 text-gray-600">{u.location}</td>
-                                <td className="px-4 py-3 text-gray-600 capitalize">{u.careerType}</td>
-                                <td className="px-4 py-3 flex justify-center gap-4">
-                                    <button
-                                        onClick={() => openEdit(u)}
-                                        className="text-blue-600 hover:text-blue-800 transition-colors"
-                                    >
-                                        <FaEdit size={16} />
-                                    </button>
-                                    <button
-                                        onClick={() => deleteUser(u.id)}
-                                        className="text-red-600 hover:text-red-800 transition-colors"
-                                    >
-                                        <FaTrash size={16} />
-                                    </button>
+                        {users.length > 0 ? (
+                            users.map((u) => (
+                                <tr
+                                    key={u.id}
+                                    className="hover:bg-gray-50 transition-colors duration-200"
+                                >
+                                    <td className="px-4 py-3 font-medium text-gray-800">{u.fullName}</td>
+                                    <td className="px-4 py-3 text-gray-600">{u.email}</td>
+                                    <td className="px-4 py-3 text-gray-600">{u.phone}</td>
+                                    <td className="px-4 py-3 text-gray-600">{u.location}</td>
+                                    <td className="px-4 py-3 text-gray-600 capitalize">{u.careerType}</td>
+                                    <td className="px-4 py-3 flex justify-center gap-4">
+                                        <button
+                                            onClick={() => openEdit(u)}
+                                            className="text-blue-600 hover:text-blue-800 transition-colors"
+                                        >
+                                            <FaEdit size={16} />
+                                        </button>
+                                        <button
+                                            onClick={() => deleteUser(u.id)}
+                                            className="text-red-600 hover:text-red-800 transition-colors"
+                                        >
+                                            <FaTrash size={16} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={6} className="text-center py-6 text-gray-500">
+                                    No users found.
                                 </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
+
                 </table>
             </div>
 

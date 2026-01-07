@@ -95,7 +95,8 @@ export default function SignupPage() {
       });
 
       showAlert("success", "Account created successfully!");
-      setTimeout(() => router.push("/login"), 1200);
+      setTimeout(() => router.push("/login"), 500);
+      // router.push("/login")
     } catch (err) {
       showAlert("error", err.message.replace("Firebase:", ""));
     } finally {

@@ -6,8 +6,10 @@ import { signOut } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { FaUserCircle } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const NavbarAdmin = () => {
+  const router = useRouter();
   const [routeName, setRouteName] = useState("admin");
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -60,6 +62,8 @@ const NavbarAdmin = () => {
   const logout = async () => {
     await signOut(auth);
     setProfileOpen(false);
+    router.push("/");
+
   };
 
   return (

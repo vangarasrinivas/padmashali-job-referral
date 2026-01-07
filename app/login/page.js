@@ -39,7 +39,7 @@ export default function LoginPage() {
 
             setTimeout(() => {
                 router.push("/");
-            }, 800);
+            }, 300);
         } catch (err) {
             showAlert("error", "Invalid email or password");
         } finally {
