@@ -38,11 +38,11 @@ export default function Home() {
 
             <p
               className="
-        mt-4
-        max-w-3xl mx-auto
-        text-sm sm:text-base
-        text-gray-600
-      "
+                mt-4
+                max-w-3xl mx-auto
+                text-sm sm:text-base
+                text-gray-600
+              "
             >
               Discover genuine job openings, employee referrals, interview
               guidance, and career growth opportunities — powered by the

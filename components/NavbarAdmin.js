@@ -1,11 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { signOut } from "firebase/auth";
+import { auth, db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { FaUserCircle } from "react-icons/fa";
 
 const NavbarAdmin = () => {
   const [routeName, setRouteName] = useState("admin");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [admin, setAdmin] = useState(null);
+
+  // 🔹 REFS FOR OUTSIDE CLICK
+  const profileRef = useRef(null);
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -14,105 +23,147 @@ const NavbarAdmin = () => {
     { name: "Admin", href: "/admin" },
   ];
 
-  const routeFunc = (navItem) =>
-    "text-white relative group"; // all links normal weight
+  // 🔹 FETCH ADMIN INFO
+  useEffect(() => {
+    if (auth.currentUser) {
+      getDoc(doc(db, "admins", auth.currentUser.uid)).then((snap) => {
+        if (snap.exists()) setAdmin(snap.data());
+      });
+    }
+  }, []);
+
+  // 🔹 CLOSE POPUP ON OUTSIDE CLICK + ESC
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false);
+      }
+    };
+
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setProfileOpen(false);
+    };
+
+    if (profileOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEsc);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [profileOpen]);
+
+  const routeFunc = () => "text-white relative group";
+
+  const logout = async () => {
+    await signOut(auth);
+    setProfileOpen(false);
+  };
 
   return (
-    <nav className="sticky top-0  text-white z-[50] bg-[#9743e4] shadow-md">
+    <nav className="sticky top-0 text-white z-[50] bg-[#9743e4] shadow-md">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
+
           {/* Brand */}
-          <div className="flex-shrink-0">
-            <Link
-              href="/"
-              onClick={() => setRouteName("home")}
-              className="text-white text-xl cursor-pointer flex items-center gap-2"
-            >
-              <img
-                src="/padmasali-logo.png"
-                alt="Padmashali Logo"
-                className="w-20 h-12"
-              />
-              Padmashali Job Referral
-            </Link>
-          </div>
+          <Link
+            href="/"
+            onClick={() => setRouteName("home")}
+            className="text-white text-xl flex items-center gap-2"
+          >
+            <img
+              src="/padmasali-logo.png"
+              alt="Padmashali Logo"
+              className="w-20 h-12"
+            />
+            Padmashali Job Referral
+          </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex justify-center gap-x-8 items-center relative">
+          <div className="hidden md:flex gap-x-8 items-center">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 onClick={() => setRouteName(item.name.toLowerCase())}
-                className={`${routeFunc(item.name.toLowerCase())} inline-block relative`}
+                className={`${routeFunc()} inline-block relative`}
               >
                 {item.name}
                 <span
-                  className={`block h-0.5 bg-white absolute bottom-0 left-0
-                    ${routeName === item.name.toLowerCase() ? "w-full" : "w-0 group-hover:w-full"}
-                    transition-all duration-300 ease-in-out`}
-                ></span>
+                  className={`block h-0.5 bg-white absolute bottom-[-2px] left-0
+                    ${
+                      routeName === item.name.toLowerCase()
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    }
+                    transition-all duration-300`}
+                />
               </Link>
             ))}
           </div>
 
+          {/* ADMIN PROFILE */}
+          <div className="hidden md:block relative" ref={profileRef}>
+            <button onClick={() => setProfileOpen((v) => !v)}>
+              <FaUserCircle size={26} />
+            </button>
+
+            {profileOpen && (
+              <div className="absolute right-0 mt-2 w-56 bg-white text-black rounded-lg shadow-lg p-4">
+                <p className="font-semibold">{admin?.name || "Admin"}</p>
+                <p className="text-sm text-gray-500">
+                  {auth.currentUser?.email}
+                </p>
+
+                <hr className="my-3" />
+
+                <button
+                  onClick={logout}
+                  className="w-full text-left px-3 py-2 rounded text-red-600 hover:bg-red-50"
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              type="button"
-              className="focus:outline-none"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                {menuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
+            <button onClick={() => setMenuOpen(!menuOpen)}>☰</button>
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[#9743e4] text-white">
-          <div className="px-4 pt-2 pb-3 space-y-1 flex flex-col">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={() => {
-                  setRouteName(item.name.toLowerCase());
-                  setMenuOpen(false);
-                }}
-                className={`py-2 px-3 ${routeFunc(item.name.toLowerCase())} inline-block relative`}
-              >
-                {item.name}
-                <span
-                  className={`block h-0.5 bg-white absolute bottom-0 left-0
-                    ${routeName === item.name.toLowerCase() ? "w-full" : "w-0 group-hover:w-full"}
-                    transition-all duration-300 ease-in-out`}
-                ></span>
-              </Link>
-            ))}
-          </div>
+        <div className="md:hidden bg-[#9743e4] text-white px-4 py-3 space-y-2">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              onClick={() => {
+                setRouteName(item.name.toLowerCase());
+                setMenuOpen(false);
+              }}
+              className="block py-2"
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          <hr className="border-white/30" />
+
+          <p className="font-semibold">{admin?.name || "Admin"}</p>
+          <p className="text-sm">{auth.currentUser?.email}</p>
+
+          <button
+            onClick={logout}
+            className="block py-2 text-left text-red-300"
+          >
+            Sign Out
+          </button>
         </div>
       )}
     </nav>
