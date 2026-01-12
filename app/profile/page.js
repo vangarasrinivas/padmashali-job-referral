@@ -5,8 +5,8 @@ import { auth, db } from "@/lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
 import ToastAlert from "@/components/ToastAlert";
+import NavbarProfile from "@/components/NavbarProfile";
 
 export default function ProfilePage() {
     const router = useRouter();
@@ -22,7 +22,7 @@ export default function ProfilePage() {
         phone: "",
         qualification: "",
         location: "",
-        careerType: "experienced",
+        careerType: "working",
 
         college: "",
         branch: "",
@@ -58,7 +58,7 @@ export default function ProfilePage() {
                     phone: data.phone || "",
                     qualification: data.qualification || "",
                     location: data.location || "",
-                    careerType: data.careerType || "experienced",
+                    careerType: data.careerType || "working",
 
                     college: data.college || "",
                     branch: data.branch || "",
@@ -128,7 +128,7 @@ export default function ProfilePage() {
 
     return (
         <section className="min-h-screen bg-gray-100">
-            <Navbar />
+            <NavbarProfile />
 
             <div className="max-w-6xl mx-auto px-4 py-12 mt-10">
                 {alert && (
@@ -208,7 +208,7 @@ export default function ProfilePage() {
                                 onChange={handleChange}
                                 className={inputStyle}
                             >
-                                <option value="experienced">Experienced</option>
+                                <option value="working">Working</option>
                                 <option value="fresher">Fresher</option>
                                 <option value="student">Student</option>
                             </select>
@@ -253,8 +253,8 @@ export default function ProfilePage() {
                             </div>
                         )}
 
-                        {/* EXPERIENCED */}
-                        {form.careerType === "experienced" && (
+                        {/* WORKING */}
+                        {form.careerType === "working" && (
                             <>
                                 <div>
                                     <label className={labelStyle}>Years of Experience</label>

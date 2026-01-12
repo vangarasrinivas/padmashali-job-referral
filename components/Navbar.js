@@ -85,11 +85,16 @@ const Navbar = () => {
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-4 relative">
             {!isUser && (
-              <Link href="/login" className="relative group">
-                Login
-                <span className={underline(pathname === "/login")}></span>
+              <Link
+                href="/login"
+                className="relative inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+              >
+                Sign In
               </Link>
             )}
+
+
+
 
             {isUser && (
               <div className="relative">
@@ -98,11 +103,11 @@ const Navbar = () => {
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white text-black rounded shadow-lg p-3">
+                  <div className="absolute right-0 mt-2 w-65 bg-white text-black rounded shadow-lg p-3">
                     <p className="font-semibold">
                       Welcome, {profile?.fullName}!
                     </p>
-                    <p className="font-semibold text-gray-500">
+                    <p className=" text-gray-500">
                       {user?.email}
                     </p>
                     <p className="text-sm text-gray-600">

@@ -115,9 +115,9 @@ const NavbarAdmin = () => {
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-white text-black rounded-lg shadow-lg p-4">
+              <div className="absolute right-0 mt-2 w-65 bg-white text-black rounded-lg shadow-lg p-4">
                 <p className="font-semibold">{admin?.name || "Admin"}</p>
-                <p className="text-sm text-gray-500">
+                <p className=" text-gray-500">
                   {auth.currentUser?.email}
                 </p>
 

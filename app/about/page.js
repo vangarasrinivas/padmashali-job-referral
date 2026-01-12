@@ -99,9 +99,11 @@ export default function AboutPage() {
                         {/* Desktop Right - Login / Profile */}
                         <div className="hidden md:flex items-center gap-4 relative">
                             {!isUser && (
-                                <Link href="/login" className="relative group">
-                                    Login
-                                    <span className={underline(pathname === "/login")}></span>
+                                <Link
+                                    href="/login"
+                                    className="relative inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+                                >
+                                    Sign In
                                 </Link>
                             )}
 

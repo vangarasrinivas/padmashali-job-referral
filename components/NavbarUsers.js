@@ -62,17 +62,11 @@ const NavbarUsers = () => {
           <div className="hidden md:flex gap-3">
             <Link
               href="/login"
-              onClick={() => setRouteName("login")}
-              className={`${routeFunc("login")} inline-block relative`}
+              className="relative inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
             >
-              Login
-              <span
-                className={`block h-0.5 bg-white absolute bottom-[-2] left-0
-                  ${routeName === "login" ? "w-full" : "w-0 group-hover:w-full"}
-                  transition-all duration-300 ease-in-out`}
-              ></span>
+              Sign In
             </Link>
-             
+
           </div>
 
           {/* Mobile Menu Button */}
