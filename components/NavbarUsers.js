@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import SignInButton from "./SignInButton";
 
 const NavbarUsers = () => {
   const [routeName, setRouteName] = useState("login");
@@ -60,12 +61,7 @@ const NavbarUsers = () => {
 
           </div>
           <div className="hidden md:flex gap-3">
-            <Link
-              href="/login"
-              className="relative inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-            >
-              Sign In
-            </Link>
+           <SignInButton />
 
           </div>
 

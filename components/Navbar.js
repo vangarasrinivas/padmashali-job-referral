@@ -8,6 +8,7 @@ import { signOut } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { FaUserCircle } from "react-icons/fa";
+import SignInButton from '../components/SignInButton'
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -85,16 +86,8 @@ const Navbar = () => {
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-4 relative">
             {!isUser && (
-              <Link
-                href="/login"
-                className="relative inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-              >
-                Sign In
-              </Link>
+              <SignInButton />
             )}
-
-
-
 
             {isUser && (
               <div className="relative">

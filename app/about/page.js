@@ -19,6 +19,7 @@ import { useAuth } from "@/context/AuthContext";
 import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { usePathname } from "next/navigation";
+import SignInButton from "../../components/SignInButton";
 
 export default function AboutPage() {
     const pathname = usePathname();
@@ -99,12 +100,7 @@ export default function AboutPage() {
                         {/* Desktop Right - Login / Profile */}
                         <div className="hidden md:flex items-center gap-4 relative">
                             {!isUser && (
-                                <Link
-                                    href="/login"
-                                    className="relative inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-                                >
-                                    Sign In
-                                </Link>
+                                <SignInButton />
                             )}
 
                             {isUser && (
@@ -222,6 +218,46 @@ export default function AboutPage() {
                                 Community
                             </span>
                         </h1>
+
+                        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                            {/* Primary CTA */}
+                            <Link
+                                href="/signup"
+                                className="
+                                group inline-flex items-center gap-2
+                                px-6 py-3
+                                rounded-full
+                                bg-[#9743e4]
+                                text-white
+                                font-semibold
+                                shadow-md
+                                transition-all duration-300 ease-out
+                                hover:bg-[#7a33c9]
+                                hover:-translate-y-0.5
+                                hover:shadow-lg
+                                "
+                            >
+                                Get Started
+                            </Link>
+
+                            {/* Secondary CTA */}
+                            <Link
+                                href="/login"
+                                className="
+                                inline-flex items-center gap-2
+                                px-6 py-3
+                                rounded-full
+                                border border-purple-300
+                                text-[#9743e4]
+                                font-semibold
+                                transition-all duration-300
+                                hover:bg-purple-50
+                                "
+                            >
+                                Sign In
+                            </Link>
+                        </div>
+
 
                         <p className="mt-6 text-gray-600 max-w-3xl mx-auto text-base sm:text-lg">
                             A trusted network for Padmashali IT professionals to share
