@@ -25,34 +25,71 @@ const JobCard = ({ job }) => {
     <div className="w-full bg-white rounded-lg shadow-md p-5 border border-gray-200 transition-shadow hover:shadow-lg">
 
       {/* Title */}
-      <div className="flex justify-between">
-        <div className="flex items-center gap-3">
-          {job?.title && (
-            <h2 className="text-base font-semibold text-gray-900">
-              {job.title}
-            </h2>
-          )}
-
-          {job?.jobType && (
-            <span className="text-xs text-gray-500 italic block mt-1">
-              {job.jobType}
-            </span>
-          )}
-        </div>
+      <div className="flex justify-between items-start gap-2">
+        {job?.title && (
+          <h2 className="
+      text-sm
+      sm:text-base
+      md:text-lg
+      lg:text-xl
+      font-semibold
+      text-gray-900
+      leading-snug
+      break-words
+    ">
+            {job.title}
+          </h2>
+        )}
 
         {job?.created_date && (
-          <span className="text-xs text-gray-500 font-serif italic">
+          <span className="
+      text-[10px]
+      sm:text-xs
+      md:text-sm
+      text-gray-500
+      font-serif
+      italic
+      whitespace-nowrap
+    ">
             {formatPostedDate(job.created_date)}
           </span>
         )}
       </div>
 
-      {/* Company */}
-      {job?.company && (
-        <p className="text-lg font-bold text-gray-600 mt-1">
-          {job.company}
-        </p>
-      )}
+
+      <div className="flex flex-wrap items-center gap-1 mt-1">
+        {/* Company */}
+        {job?.company && (
+          <p className="
+      text-sm
+      sm:text-base
+      md:text-lg
+      font-bold
+      text-gray-600
+      leading-tight
+    ">
+            {job.company}
+          </p>
+        )}
+
+        {/* Separator */}
+        {job?.company && job?.jobType && (
+          <span className="text-gray-400 text-xs sm:text-sm">•</span>
+        )}
+
+        {/* Job Type */}
+        {job?.jobType && (
+          <span className="
+      text-[10px]
+      sm:text-xs
+      md:text-sm
+      text-gray-500
+      italic
+    ">
+            {job.jobType}
+          </span>
+        )}
+      </div>
 
       {/* Meta */}
       <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-3">

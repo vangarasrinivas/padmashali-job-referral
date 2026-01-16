@@ -17,35 +17,80 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
-        <div className="w-full bg-white rounded-lg shadow-md p-5 border border-gray-200 hover:shadow-lg transition">
+        <div className="w-full bg-white rounded-lg shadow-md p-4 sm:p-5 border border-gray-200 hover:shadow-lg transition">
 
             {/* Header */}
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-start gap-3">
                 {/* Left */}
-                <div>
-                    <div className="flex items-center gap-3">
-                        <h2 className="text-base font-semibold text-gray-900">
+                <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <h2
+                            className="
+                text-sm
+                sm:text-base
+                md:text-lg
+                lg:text-xl
+                font-semibold
+                text-gray-900
+                leading-snug
+                break-words
+              "
+                        >
                             {job.title}
                         </h2>
-                        <span className="text-xs text-gray-500 italic block mt-1">{job.jobType || 'Full-Time'}</span>
+
+
                     </div>
 
-                    <p className="text-lg font-bold text-gray-600 mt-1">
-                        {job.company}
-                    </p>
+                    <div className="flex items-center gap-2">
+
+                        <p
+                            className="
+                                    text-sm
+                                    sm:text-base
+                                    md:text-lg
+                                    font-bold
+                                    text-gray-600
+                                    mt-1
+                                    leading-tight
+                                    "
+                        >
+                            {job.company}
+                        </p>
+                        <span
+                            className="
+                                text-[10px]
+                                sm:text-xs
+                                md:text-sm
+                                text-gray-500
+                                italic
+                                whitespace-nowrap
+                                mt-1
+                            "
+                        >
+                            {job.jobType || "Full-Time"}
+                        </span>
+                    </div>
                 </div>
 
                 {/* Right */}
-                <div className="flex flex-col items-end gap-1">
-                    {/* Posted Date */}
+                <div className="flex flex-col items-end gap-1 shrink-0">
                     {job.created_date && (
-                        <span className="text-xs text-gray-500 mb-2 font-serif">
+                        <span
+                            className="
+                text-[10px]
+                sm:text-xs
+                md:text-sm
+                text-gray-500
+                font-serif
+                italic
+              "
+                        >
                             {formatPostedDate(job.created_date)}
                         </span>
                     )}
 
-                    {/* Admin Actions */}
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 mt-1">
                         <FaEdit
                             className="text-blue-500 cursor-pointer hover:scale-110 transition"
                             title="Edit Job"
@@ -61,7 +106,16 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
             </div>
 
             {/* Meta */}
-            <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-3">
+            <div
+                className="
+          flex flex-wrap gap-3
+          text-[11px]
+          sm:text-sm
+          md:text-base
+          text-gray-600
+          mt-3
+        "
+            >
                 {job.experience && (
                     <div className="flex items-center gap-1">
                         <FaBriefcase className="text-gray-400" />
@@ -91,7 +145,16 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
 
             {/* Preferred Profile */}
             {job.preferredProfile && (
-                <div className="flex items-start gap-2 text-sm text-gray-700 mt-3">
+                <div
+                    className="
+            flex items-start gap-2
+            text-[11px]
+            sm:text-sm
+            md:text-base
+            text-gray-700
+            mt-3
+          "
+                >
                     <FaUserTie className="text-gray-400 mt-1" />
                     <p>
                         <span className="font-medium">Preferred profile:</span>{" "}
@@ -101,14 +164,10 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
             )}
 
             {/* Skills */}
-            {/* Skills */}
             {Array.isArray(job.skills) &&
-                job.skills
-                    .filter(
-                        (skill) =>
-                            typeof skill === "string" && skill.trim().length > 0
-                    )
-                    .length > 0 && (
+                job.skills.filter(
+                    (skill) => typeof skill === "string" && skill.trim().length > 0
+                ).length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-4">
                         {job.skills
                             .filter(
@@ -118,7 +177,15 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
                             .map((skill, index) => (
                                 <span
                                     key={`${skill}-${index}`}
-                                    className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full"
+                                    className="
+                    bg-gray-100
+                    text-gray-700
+                    text-[10px]
+                    sm:text-xs
+                    px-3
+                    py-1
+                    rounded-full
+                  "
                                 >
                                     {skill.trim()}
                                 </span>
@@ -126,20 +193,25 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
                     </div>
                 )}
 
-
-
-
             {/* Description */}
             {job.description && (
                 <>
                     <div
                         className={`
               relative overflow-hidden transition-all duration-300
-              ${expanded ? "max-h-96 mt-4" : "max-h-15 mt-3"}
+              ${expanded ? "max-h-96 mt-4" : "max-h-16 mt-3"}
             `}
                     >
                         <div
-                            className="text-sm text-gray-600 leading-relaxed [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5"
+                            className="
+                text-[11px]
+                sm:text-sm
+                md:text-base
+                text-gray-600
+                leading-relaxed
+                [&_ul]:list-disc [&_ul]:pl-5
+                [&_ol]:list-decimal [&_ol]:pl-5
+              "
                             dangerouslySetInnerHTML={{ __html: job.description }}
                         />
 
@@ -151,7 +223,15 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
                     {/* Toggle */}
                     <button
                         onClick={() => setExpanded(!expanded)}
-                        className="mt-2 flex items-center gap-1 text-sm font-medium text-[#9743e4] hover:underline"
+                        className="
+              mt-2
+              flex items-center gap-1
+              text-xs
+              sm:text-sm
+              font-medium
+              text-[#9743e4]
+              hover:underline
+            "
                     >
                         {expanded ? "View less" : "View more"}
                         <FaChevronDown
@@ -160,6 +240,16 @@ export default function JobCardAdmin({ job, onEdit, onDelete }) {
                         />
                     </button>
                 </>
+            )}
+
+            {/* CTA */}
+            {job?.applyUrl && (
+                <button
+                    onClick={() => window.open(job.applyUrl, "_blank")}
+                    className="mt-4 bg-[#9743e4] cursor-pointer text-white px-4 py-1.5 rounded-md text-sm hover:bg-[#7a33c9] transition"
+                >
+                    Apply Now
+                </button>
             )}
         </div>
     );
