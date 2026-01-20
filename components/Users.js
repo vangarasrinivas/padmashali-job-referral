@@ -9,7 +9,7 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaDownload, FaEdit, FaTrash } from "react-icons/fa";
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState([]);
@@ -78,6 +78,7 @@ export default function AdminUsersPage() {
                             <th className="px-4 py-3 font-medium text-gray-700">Phone</th>
                             <th className="px-4 py-3 font-medium text-gray-700">Location</th>
                             <th className="px-4 py-3 font-medium text-gray-700">Career</th>
+                            <th className="px-4 py-3 font-medium text-gray-700">Resume</th>
                             <th className="px-4 py-3 font-medium text-gray-700 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -93,6 +94,21 @@ export default function AdminUsersPage() {
                                     <td className="px-4 py-3 text-gray-600">{u.phone}</td>
                                     <td className="px-4 py-3 text-gray-600">{u.location}</td>
                                     <td className="px-4 py-3 text-gray-600 capitalize">{u.careerType}</td>
+                                    {/* Resume Column */}
+                                    <td className="px-4 py-3 text-gray-600">
+                                        {u.resume ? (
+                                            <a
+                                                href={u.resume}
+                                                download={u.resumeName || "resume"}
+                                                className="flex items-center justify-center gap-2 text-purple-600 hover:text-purple-800"
+                                                title="Download Resume"
+                                            >
+                                                {u.resumeName || "resume"}<FaDownload size={18} />
+                                            </a>
+                                        ) : (
+                                            <span className="text-gray-400 italic">No resume</span>
+                                        )}
+                                    </td>
                                     <td className="px-4 py-3 flex justify-center gap-4">
                                         <button
                                             onClick={() => openEdit(u)}

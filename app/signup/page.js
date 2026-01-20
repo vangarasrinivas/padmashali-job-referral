@@ -34,6 +34,10 @@ export default function SignupPage() {
 
     password: "",
     confirmPassword: "",
+
+    // Resume fields
+    resume: "",      // Base64 content
+    resumeName: "",  // File name
   });
 
   const [errors, setErrors] = useState({});
@@ -41,14 +45,34 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
-  // handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  // handle signup submit
+  // Resume upload handler (Base64)
+  const handleResumeUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 1024 * 1024) { // 1MB limit
+      setAlert({ type: "error", message: "Resume must be less than 1MB" });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setForm((prev) => ({
+        ...prev,
+        resume: reader.result,
+        resumeName: file.name,
+      }));
+      setAlert({ type: "success", message: "Resume uploaded successfully" });
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -69,16 +93,15 @@ export default function SignupPage() {
     try {
       setLoading(true);
 
-      // create user in Firebase Auth
+      // Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         form.email,
         form.password
       );
-
       const user = userCredential.user;
 
-      // create user record immediately in Firestore
+      // Save user in Firestore including resume
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         fullName: form.fullName,
@@ -94,22 +117,22 @@ export default function SignupPage() {
         company: form.company,
         workinglocation: form.workinglocation,
         password: form.password,
+        resume: form.resume || "",
+        resumeName: form.resumeName || "",
         role: "user",
-        emailVerified: false, // important flag
+        emailVerified: false,
         createdAt: serverTimestamp(),
       });
 
-      // send email verification
+      // Send email verification
       await sendEmailVerification(user, {
         url: `${window.location.origin}/login?verified=true`,
       });
 
-
       setEmailSent(true);
       setAlert({
         type: "success",
-        message:
-          "Verification email sent! Please check your inbox and spam folder.",
+        message: "Verification email sent! Please check your inbox.",
       });
     } catch (err) {
       setAlert({ type: "error", message: err.message });
@@ -138,6 +161,8 @@ export default function SignupPage() {
           emailSent={emailSent}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
+          handleResumeUpload={handleResumeUpload}
+          setForm={setForm} // pass resume handler
         />
       </div>
     </section>

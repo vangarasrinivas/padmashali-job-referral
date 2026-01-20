@@ -12,6 +12,8 @@ export default function SignupForm({
   handleChange,
   handleSubmit,
   emailSent, // new prop to show after signup
+  handleResumeUpload,
+  setForm,
 }) {
   const inputStyle =
     "w-full px-3 py-2.5 text-sm rounded-md bg-gray-50 ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white";
@@ -240,6 +242,59 @@ export default function SignupForm({
               </div>
             </>
           )}
+
+          <div className="">
+            <label className={labelStyle}>Upload Resume (PDF/DOC, max 1MB)</label>
+
+            {/* File input styled as a text input with icon */}
+            <div className="mt-2 relative">
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleResumeUpload}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white px-3 py-2 text-gray-700 cursor-pointer hover:border-purple-500 transition">
+                <span>
+                  {form.resumeName ? form.resumeName : "Choose a file..."}
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v8m0 0l-3-3m3 3l3-3M12 4v8"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* Show uploaded file with delete option */}
+            {form.resume && (
+              <div className="mt-3 flex items-center justify-between bg-gray-100 p-2 rounded-md border border-gray-300">
+                <a
+                  href={form.resume}
+                  download={form.resumeName}
+                  className="text-gray-800 hover:text-purple-600 underline truncate max-w-xs"
+                >
+                  {form.resumeName}
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, resume: "", resumeName: "" })}
+                  className="ml-3 px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* Password */}
           <div>
