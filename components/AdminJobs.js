@@ -151,8 +151,6 @@ export default function AdminJobs() {
     );
   }
 
-  console.log("Jobs:", jobs);
-
   const handleLogout = async () => {
     await signOut(auth);
     router.replace("/"); // ✅ Redirect to home

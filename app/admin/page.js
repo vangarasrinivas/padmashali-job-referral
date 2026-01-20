@@ -5,6 +5,7 @@ import NavbarAdmin from '@/components/NavbarAdmin'
 import AdminJobs from '../../components/AdminJobs';
 import BackToTop from '../../components/BackToTop';
 import AdminUsers from '../../components/Users';
+import AdminAnalytics from '../../components/AdminAnalytics';
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("Jobs");
@@ -24,7 +25,7 @@ const AdminPage = () => {
         "
       >
         <div className='max-w-6xl mx-auto w-full flex gap-4'>
-          {["Jobs", "Users"].map((tab) => (
+          {["Jobs", "Users", "Visitors"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -54,6 +55,10 @@ const AdminPage = () => {
               <div>
                 {/* Render Jobs Management Component */}
                 <AdminJobs />
+              </div>
+            ) : activeTab === "Visitors" ? (
+              <div>
+                <AdminAnalytics />
               </div>
             ) : (
               <div>

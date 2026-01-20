@@ -43,9 +43,6 @@ const Navbar = () => {
         setProfile(null); // clear profile immediately
     };
 
-    console.log("user", user);
-    console.log("profile", profile);
-
     const isUser = user && profile?.role === "user";
 
     const underline = (active) =>

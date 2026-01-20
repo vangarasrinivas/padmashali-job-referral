@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-
+import { trackVisitor } from "@/lib/trackVisitor";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -16,6 +16,10 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
     return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    trackVisitor();
   }, []);
 
   return (
