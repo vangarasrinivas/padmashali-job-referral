@@ -14,6 +14,9 @@ import { FaDownload, FaEdit, FaTrash } from "react-icons/fa";
 export default function AdminUsersPage() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [previewResume, setPreviewResume] = useState(null);
+    const [previewName, setPreviewName] = useState("");
+
 
     const [editUserId, setEditUserId] = useState(null);
     const [form, setForm] = useState({});
@@ -70,16 +73,16 @@ export default function AdminUsersPage() {
 
             {/* ================= TABLE ================= */}
             <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-                <table className="w-full text-sm text-left border-collapse">
+                <table className="w-full text-sm text-center border-collapse">
                     <thead className="bg-gray-100">
                         <tr>
-                            <th className="px-4 py-3 font-medium text-gray-700">Name</th>
-                            <th className="px-4 py-3 font-medium text-gray-700">Email</th>
-                            <th className="px-4 py-3 font-medium text-gray-700">Phone</th>
-                            <th className="px-4 py-3 font-medium text-gray-700">Location</th>
-                            <th className="px-4 py-3 font-medium text-gray-700">Career</th>
-                            <th className="px-4 py-3 font-medium text-gray-700">Resume</th>
-                            <th className="px-4 py-3 font-medium text-gray-700 text-center">Actions</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Name</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Email</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Phone</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Location</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Career</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Resume</th>
+                            <th className="px-4 py-3 font-bold text-gray-700 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y">
@@ -95,20 +98,24 @@ export default function AdminUsersPage() {
                                     <td className="px-4 py-3 text-gray-600">{u.location}</td>
                                     <td className="px-4 py-3 text-gray-600 capitalize">{u.careerType}</td>
                                     {/* Resume Column */}
-                                    <td className="px-4 py-3 text-gray-600">
+                                    {/* Resume Column */}
+                                    <td className="px-4 py-3 text-gray-600 text-center">
                                         {u.resume ? (
-                                            <a
-                                                href={u.resume}
-                                                download={u.resumeName || "resume"}
-                                                className="flex items-center justify-center gap-2 text-purple-600 hover:text-purple-800"
-                                                title="Download Resume"
+                                            <button
+                                                onClick={() => {
+                                                    setPreviewResume(u.resume);
+                                                    setPreviewName(u.resumeName || "Resume");
+                                                }}
+                                                className="text-purple-600 hover:underline font-medium"
                                             >
-                                                {u.resumeName || "resume"}<FaDownload size={18} />
-                                            </a>
+                                                View Resume
+                                            </button>
                                         ) : (
                                             <span className="text-gray-400 italic">No resume</span>
                                         )}
                                     </td>
+
+
                                     <td className="px-4 py-3 flex justify-center gap-4">
                                         <button
                                             onClick={() => openEdit(u)}
@@ -209,6 +216,39 @@ export default function AdminUsersPage() {
                     </div>
                 </div>
             )}
+
+            {/* RESUME PREVIEW MODAL */}
+            {previewResume && (
+                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4">
+                    <div className="bg-white w-full max-w-4xl rounded-xl shadow-lg overflow-hidden">
+
+                        {/* Header */}
+                        <div className="flex justify-between items-center px-5 py-3 border-b">
+                            <h3 className="font-semibold text-gray-800">
+                                {previewName}
+                            </h3>
+                            <button
+                                onClick={() => setPreviewResume(null)}
+                                className="text-gray-500 hover:text-gray-700 text-xl"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        {/* Preview */}
+                        <div className="h-[75vh] bg-gray-100">
+                            <iframe
+                                src={previewResume}
+                                className="w-full h-full"
+                                title="Resume Preview"
+                            />
+                        </div>
+
+                        
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
