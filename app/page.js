@@ -15,7 +15,7 @@ export default function Home() {
       {/* Navbar */}
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-4 mt-[2rem]">
+      <div className="max-w-6xl mx-auto px-0 md:px-4 mt-[2rem]">
         <section
           id="home"
           className="

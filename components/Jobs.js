@@ -5,6 +5,7 @@ import JobCard from "./JobCard";
 import { getJobs, getJobsCount } from "@/lib/jobs";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { FaLock } from "react-icons/fa";
+import Link from "next/link";
 
 const PAGE_SIZE_AUTH = 15;
 const PAGE_SIZE_GUEST = 5;
@@ -66,7 +67,7 @@ const Jobs = () => {
   return (
     <div className="w-full bg-gray-100 min-h-screen mt-5 rounded-md shadow-md">
       {/* ---------------- TABS ---------------- */}
-      <div className="sticky top-16 z-30 bg-white px-5 pt-3 flex gap-4 border-b-2 border-gray-200">
+      <div className="sticky top-16 z-30 bg-white px-2 md:px-5 pt-3 flex gap-4 border-b-2 border-gray-200">
         {["Private", "Government"].map((tab) => (
           <button
             key={tab}
@@ -91,7 +92,7 @@ const Jobs = () => {
       </div>
 
       {/* ---------------- CONTENT ---------------- */}
-      <div className="p-5">
+      <div className="p-3 md:p-5">
         {/* Count */}
         {!loading && jobs.length > 0 && (
           <div className="text-sm text-gray-600 mb-2">
@@ -147,35 +148,36 @@ const Jobs = () => {
 
               {/* Actions */}
               <div className="mt-6 flex gap-4 justify-center">
-                <a
+                <Link
                   href="/signup"
                   className="
-            px-6 py-2.5 rounded-full
-            bg-gradient-to-r from-[#9743e4] to-[#7a33c9]
-            text-white text-sm font-medium
-            shadow-lg shadow-purple-500/30
-            hover:shadow-purple-500/50
-            hover:scale-[1.03]
-            active:scale-95
-            transition-all
-          "
+                  px-6 py-2.5 rounded-full
+                  bg-gradient-to-r from-[#9743e4] to-[#7a33c9]
+                  text-white text-sm font-medium
+                  shadow-lg shadow-purple-500/30
+                  hover:shadow-purple-500/50
+                  hover:scale-[1.03]
+                  active:scale-95
+                  transition-all
+                "
                 >
                   Unlock Jobs
-                </a>
+                </Link>
 
-                <a
+                <Link
                   href="/login"
                   className="
-            px-6 py-2.5 rounded-full
-            border border-[#9743e4]
-            text-[#9743e4] text-sm font-medium
-            hover:bg-purple-50
-            transition
-          "
+                    px-6 py-2.5 rounded-full
+                    border border-[#9743e4]
+                    text-[#9743e4] text-sm font-medium
+                    hover:bg-purple-50
+                    transition
+                  "
                 >
                   Sign In
-                </a>
+                </Link>
               </div>
+
 
               {/* Trust hint */}
               <p className="mt-4 text-xs text-gray-500">

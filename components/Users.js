@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
 
             {/* ================= TABLE ================= */}
             <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-                <table className="w-full text-sm text-center border-collapse">
+                <table className="w-full text-sm text-left border-collapse">
                     <thead className="bg-gray-100">
                         <tr>
                             <th className="px-4 py-3 font-bold text-gray-700">Name</th>
