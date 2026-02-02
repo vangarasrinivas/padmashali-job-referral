@@ -161,12 +161,12 @@ export default function AdminContactsPage() {
         // }
 
         // Your custom message
-        const message = `Hi ${c.fullName} 👋
+        const message = `Hi ${c.fullName}
 
-            Join the official Padmashali Community job referreal WhatsApp group here 👇
+            Join the official Padmashali Community job referreal WhatsApp group here
             https://chat.whatsapp.com/L749zvZUBb056lBT5gYWgz
 
-            See you there! 😊`;
+            See you there!`;
 
         // Open WhatsApp link
         const url = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
