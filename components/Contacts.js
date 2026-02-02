@@ -142,23 +142,37 @@ export default function AdminContactsPage() {
     /* ================= WHATSAPP ================= */
     const sendWhatsApp = (c) => {
         if (!c.phone) {
-            alert("Phone not available");
+            alert("Phone number not available");
             return;
         }
 
-        const phone = c.phone.replace(/\D/g, "");
+        // Remove non-digit characters
+        let phoneDigits = c.phone.replace(/\D/g, "");
 
+        // Add default country code if missing (example: India = 91)
+        if (phoneDigits.length === 10) {
+            phoneDigits = "91" + phoneDigits;
+        }
+
+        // Validate final number length (should be at least country code + 10 digits)
+        // if (phoneDigits.length < 11) {
+        //     alert("Invalid phone number. Please check country code and number.");
+        //     return;
+        // }
+
+        // Your custom message
         const message = `Hi ${c.fullName} 👋
 
-        Join the official Padmashali Community WhatsApp group here 👇
-        https://chat.whatsapp.com/L749zvZUBb056lBT5gYWgz
+            Join the official Padmashali Community job referreal WhatsApp group here 👇
+            https://chat.whatsapp.com/L749zvZUBb056lBT5gYWgz
 
-        See you there! 😊`;
+            See you there! 😊`;
 
-
-        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        // Open WhatsApp link
+        const url = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
         window.open(url, "_blank");
     };
+
 
 
     if (loading) return <p className="p-6">Loading contacts...</p>;
