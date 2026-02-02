@@ -203,8 +203,8 @@ export default function AdminContactsPage() {
                         <tr>
                             <th className="px-4 py-3">S.N</th>
                             <th className="px-4 py-3">Name</th>
-                            <th className="px-4 py-3">Email</th>
                             <th className="px-4 py-3">Phone</th>
+                            <th className="px-4 py-3">Email</th>
                             <th className="px-4 py-3">Joined</th>
                             <th className="px-4 py-3 text-center">Actions</th>
                         </tr>
@@ -215,8 +215,8 @@ export default function AdminContactsPage() {
                             <tr key={c.id} className="hover:bg-gray-50">
                                 <td className="px-4 py-3">{i + 1}</td>
                                 <td className="px-4 py-3 font-medium">{c.fullName}</td>
-                                <td className="px-4 py-3">{c.email}</td>
                                 <td className="px-4 py-3">{c.phone}</td>
+                                <td className="px-4 py-3">{c.email}</td>
                                 <td className="px-4 py-3">
                                     {formatDate(c.createdAt)}
                                 </td>
@@ -266,12 +266,13 @@ export default function AdminContactsPage() {
                             <Input label="Full Name" value={form.fullName}
                                 onChange={(v) => setForm({ ...form, fullName: v })} />
 
-                            <Input label="Email" value={form.email}
-                                disabled={!!editId}
-                                onChange={(v) => setForm({ ...form, email: v })} />
 
                             <Input label="Phone" value={form.phone}
                                 onChange={(v) => setForm({ ...form, phone: v })} />
+
+                            <Input label="Email" value={form.email}
+                                disabled={!!editId}
+                                onChange={(v) => setForm({ ...form, email: v })} />
 
                             <div>
                                 <label className={labelStyle}>Career Type</label>
