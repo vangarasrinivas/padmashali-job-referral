@@ -124,6 +124,18 @@ export default function SignupPage() {
         createdAt: serverTimestamp(),
       });
 
+      //create contact
+      await setDoc(doc(db, "contacts", user.uid), {
+        uid: user.uid,
+        fullName: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        careerType: form.careerType,
+        role: "user",
+        emailVerified: false,
+        createdAt: serverTimestamp(),
+      });
+
       // Send email verification
       await sendEmailVerification(user, {
         url: `${window.location.origin}/login?verified=true`,

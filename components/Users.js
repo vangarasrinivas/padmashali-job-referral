@@ -7,30 +7,67 @@ import {
     doc,
     deleteDoc,
     updateDoc,
+    orderBy,
+    query,
+    where,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FaDownload, FaEdit, FaTrash } from "react-icons/fa";
+import { formatDate } from "../lib/utils";
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [previewResume, setPreviewResume] = useState(null);
     const [previewName, setPreviewName] = useState("");
-
+    const [activeTab, setActiveTab] = useState("all");
 
     const [editUserId, setEditUserId] = useState(null);
     const [form, setForm] = useState({});
 
     /* ================= FETCH USERS ================= */
-    const fetchUsers = async () => {
-        const snap = await getDocs(collection(db, "users"));
-        setUsers(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
-        setLoading(false);
+    // const fetchUsers = async () => {
+    //     const snap = await getDocs(collection(db, "users"));
+    //     setUsers(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+    //     setLoading(false);
+    // };
+
+    const fetchUsers = async (careerType = "all") => {
+        try {
+            setLoading(true);
+
+            let q = query(
+                collection(db, "users"),
+                orderBy("createdAt", "desc")
+            );
+
+            if (careerType !== "all") {
+                q = query(
+                    collection(db, "users"),
+                    orderBy("createdAt", "desc"),
+                    where("careerType", "==", careerType)
+                );
+            }
+
+            const snap = await getDocs(q);
+
+            setUsers(
+                snap.docs.map((d) => ({
+                    id: d.id,
+                    ...d.data(),
+                }))
+            );
+        } catch (error) {
+            console.error("Failed to fetch users:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        fetchUsers();
-    }, []);
+        fetchUsers(activeTab);
+    }, [activeTab]);
+
 
     /* ================= DELETE USER ================= */
     const deleteUser = async (id) => {
@@ -69,34 +106,52 @@ export default function AdminUsersPage() {
     if (loading) return <p className="p-6">Loading users...</p>;
 
     return (
-        <div className="mx-auto">
+        <div className="mx-auto pb-16">
 
             {/* ================= TABLE ================= */}
+            <div className="flex gap-2 mb-4">
+                {["all", "fresher", "working", "student"].map((type) => (
+                    <button
+                        key={type}
+                        onClick={() => setActiveTab(type)}
+                        className={`px-4 py-1 rounded-full text-sm font-medium capitalize transition
+                        ${activeTab === type
+                                ? "bg-purple-600 text-white"
+                                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            }`}
+                    >
+                        {type}
+                    </button>
+                ))}
+            </div>
             <div className="overflow-x-auto bg-white rounded-xl shadow-md">
                 <table className="w-full text-sm text-left border-collapse">
                     <thead className="bg-gray-100">
                         <tr>
+                            <th className="px-4 py-3 font-bold text-gray-700">S.N.</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Name</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Email</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Phone</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Location</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Career</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Resume</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Joined date</th>
                             <th className="px-4 py-3 font-bold text-gray-700 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y">
                         {users.length > 0 ? (
-                            users.map((u) => (
+                            users.map((u, i) => (
                                 <tr
                                     key={u.id}
                                     className="hover:bg-gray-50 transition-colors duration-200"
                                 >
+                                    <td className="px-4 py-3 font-medium text-gray-800">{i + 1}</td>
                                     <td className="px-4 py-3 font-medium text-gray-800">{u.fullName}</td>
                                     <td className="px-4 py-3 text-gray-600">{u.email}</td>
                                     <td className="px-4 py-3 text-gray-600">{u.phone}</td>
                                     <td className="px-4 py-3 text-gray-600">{u.location}</td>
-                                    <td className="px-4 py-3 text-gray-600 capitalize">{u.careerType}</td>
+                                    <td className="px-4 py-3 text-gray-600">{u.careerType}</td>
                                     {/* Resume Column */}
                                     {/* Resume Column */}
                                     <td className="px-4 py-3 text-gray-600 text-center">
@@ -114,7 +169,7 @@ export default function AdminUsersPage() {
                                             <span className="text-gray-400 italic">No resume</span>
                                         )}
                                     </td>
-
+                                    <td className="px-4 py-3 text-gray-600 text-sm capitalize">{formatDate(u.createdAt)}</td>
 
                                     <td className="px-4 py-3 flex justify-center gap-4">
                                         <button
@@ -244,7 +299,7 @@ export default function AdminUsersPage() {
                             />
                         </div>
 
-                        
+
                     </div>
                 </div>
             )}
