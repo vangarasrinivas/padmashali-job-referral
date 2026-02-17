@@ -100,18 +100,18 @@ const Jobs = ({ reload }) => {
     }
   };
 
-  useEffect(() => {
-    if (activeTab === 'Professionals') {
-      fetchUsers('working');
-    }
-  }, [activeTab]);
+  // useEffect(() => {
+  //   if (activeTab === 'Professionals') {
+  //     fetchUsers('working');
+  //   }
+  // }, [activeTab]);
 
 
   return (
     <div className="w-full bg-gray-100 min-h-screen mt-5 rounded-md shadow-md">
       {/* ---------------- TABS ---------------- */}
       <div className="sticky top-16 z-30 bg-white px-2 md:px-5 pt-3 flex gap-4 border-b-2 border-gray-200">
-        {["Private", "Government", "Professionals"].map((tab) => (
+        {["Private", "Government"].map((tab) => (
           <button
             key={tab}
             onClick={() => {
