@@ -101,7 +101,7 @@ const Jobs = ({ reload }) => {
   };
 
   useEffect(() => {
-    if (activeTab === 'Our Professional') {
+    if (activeTab === 'Professionals') {
       fetchUsers('working');
     }
   }, [activeTab]);
@@ -111,7 +111,7 @@ const Jobs = ({ reload }) => {
     <div className="w-full bg-gray-100 min-h-screen mt-5 rounded-md shadow-md">
       {/* ---------------- TABS ---------------- */}
       <div className="sticky top-16 z-30 bg-white px-2 md:px-5 pt-3 flex gap-4 border-b-2 border-gray-200">
-        {["Private", "Government", "Our Professional"].map((tab) => (
+        {["Private", "Government", "Professionals"].map((tab) => (
           <button
             key={tab}
             onClick={() => {
@@ -137,7 +137,7 @@ const Jobs = ({ reload }) => {
       {/* ---------------- CONTENT ---------------- */}
       <div className="p-3 md:p-5">
         {
-          activeTab === 'Our Professional' ? (
+          activeTab === 'Professionals' ? (
             <div className="space-y-4">
               {users.map((user) => (
                 <div
@@ -163,17 +163,16 @@ const Jobs = ({ reload }) => {
                           {user.fullName}
                         </h3>
 
-                        <p className="text-xs sm:text-sm text-gray-500 break-all">
-                          {user.email}
-                        </p>
-
                         {user.company && (
-                          <p className="text-xs sm:text-sm text-gray-600">
+                          <p className="text-sm sm:text-base font-medium text-purple-700">
                             {user.company}
                           </p>
                         )}
 
-                        {/* Location */}
+                        <p className="text-xs sm:text-sm text-gray-500 break-all">
+                          {user.email}
+                        </p>
+
                         {user.location && (
                           <p className="text-xs sm:text-sm text-gray-500 flex items-center gap-1">
                             <span>📍</span>
@@ -199,6 +198,7 @@ const Jobs = ({ reload }) => {
                 </div>
               ))}
             </div>
+
 
 
           ) : (
