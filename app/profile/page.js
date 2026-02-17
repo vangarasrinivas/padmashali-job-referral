@@ -2,14 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { auth, db } from "@/lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import ToastAlert from "@/components/ToastAlert";
 import NavbarProfile from "@/components/NavbarProfile";
+import JobCard from "../../components/JobCard";
 
 export default function ProfilePage() {
     const router = useRouter();
+    const [activeTab, setActiveTab] = useState("About you");
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -130,6 +132,44 @@ export default function ProfilePage() {
         }
     };
 
+
+    const [jobs, setJobs] = useState([]);
+    console.log('jobs:', jobs);
+
+    const getJobsByUser = async (userId) => {
+        console.log
+        const q = query(
+            collection(db, "jobs"),
+            where("posted_by_uid", "==", userId),
+            // orderBy("created_at", "desc")
+        );
+
+        const snapshot = await getDocs(q);
+
+        return snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+    };
+    const loadUserJobs = async (uid) => {
+        console.log('Loading jobs for user:', uid);
+        const fetchedJobs = await getJobsByUser(uid);
+        console.log('Fetched jobs:', fetchedJobs);
+        setJobs(fetchedJobs);
+    }
+
+    useEffect(() => {
+        console.log("user?.uid", user?.uid);
+        if (user?.uid) {
+            console.log("calling")
+            loadUserJobs(user?.uid);
+        }
+
+
+    }, [user?.uid])
+
+
+
     if (loading) return null;
 
     const inputStyle =
@@ -145,170 +185,213 @@ export default function ProfilePage() {
         <section className="min-h-screen bg-gray-100">
             <NavbarProfile />
 
-            <div className="max-w-6xl mx-auto px-4 py-12 mt-10">
+            <div className="max-w-6xl mx-auto px-4 py-10 mt-10">
                 {alert && (
                     <ToastAlert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />
                 )}
 
-                <h2 className="text-3xl font-bold text-center mb-10">Your Profile</h2>
+                <h2 className="text-3xl font-bold text-center mb-2">Your Profile</h2>
 
-
-                <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className={grid4}>
-                        {/* FULL NAME */}
-                        <div>
-                            <label className={labelStyle}>Full Name</label>
-                            <input name="fullName" value={form.fullName} onChange={handleChange} className={inputStyle} />
-                        </div>
-
-                        {/* EMAIL - READ ONLY */}
-                        <div>
-                            <label className={labelStyle}>Email</label>
-                            <input value={form.email} disabled className={disabledStyle} />
-                        </div>
-
-                        {/* PHONE */}
-                        <div>
-                            <label className={labelStyle}>Phone Number</label>
-                            <input name="phone" value={form.phone} onChange={handleChange} className={inputStyle} />
-                        </div>
-
-                        {/* LOCATION */}
-                        <div>
-                            <label className={labelStyle}>Location</label>
-                            <input name="location" value={form.location} onChange={handleChange} className={inputStyle} />
-                        </div>
-
-                        {/* QUALIFICATION */}
-                        <div>
-                            <label className={labelStyle}>Qualification</label>
-                            <input name="qualification" value={form.qualification} onChange={handleChange} className={inputStyle} />
-                        </div>
-
-                        {/* PROFILE TYPE */}
-                        <div>
-                            <label className={labelStyle}>Profile Type</label>
-                            <select name="careerType" value={form.careerType} onChange={handleChange} className={inputStyle}>
-                                <option value="working">Working</option>
-                                <option value="fresher">Fresher</option>
-                                <option value="student">Student</option>
-                            </select>
-                        </div>
-
-
-                        {/* STUDENT / FRESHER / WORKING sections */}
-                        {(form.careerType === "student" || form.careerType === "fresher") && (
-                            <div>
-                                <label className={labelStyle}>College Name</label>
-                                <input name="college" value={form.college} onChange={handleChange} className={inputStyle} />
-                            </div>
-                        )}
-
-                        {form.careerType === "student" && (
-                            <div>
-                                <label className={labelStyle}>Branch</label>
-                                <input name="branch" value={form.branch} onChange={handleChange} className={inputStyle} />
-                            </div>
-                        )}
-
-                        {form.careerType === "fresher" && (
-                            <div>
-                                <label className={labelStyle}>Skills/Summary</label>
-                                <textarea name="skills" value={form.skills} onChange={handleChange} className={inputStyle} />
-                            </div>
-                        )}
-
-                        {form.careerType === "working" && (
-                            <>
-                                <div>
-                                    <label className={labelStyle}>Years of Experience</label>
-                                    <input name="experienceYears" value={form.experienceYears} onChange={handleChange} className={inputStyle} />
-                                </div>
-
-                                <div>
-                                    <label className={labelStyle}>Current Company</label>
-                                    <input name="company" value={form.company} onChange={handleChange} className={inputStyle} />
-                                </div>
-
-                                <div>
-                                    <label className={labelStyle}>Work Location</label>
-                                    <input name="workinglocation" value={form.workinglocation} onChange={handleChange} className={inputStyle} />
-                                </div>
-
-                                <div>
-                                    <label className={labelStyle}>Working Skills / Summary</label>
-                                    <textarea name="skills" value={form.skills} onChange={handleChange} className={inputStyle} />
-                                </div>
-                                {/* RESUME UPLOAD */}
-                                <div className="">
-                                    <label className={labelStyle}>Upload Resume (PDF/DOC, max 1MB)</label>
-
-                                    {/* File input styled as a text input with icon */}
-                                    <div className="mt-2 relative">
-                                        <input
-                                            type="file"
-                                            accept=".pdf,.doc,.docx"
-                                            onChange={handleResumeUpload}
-                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                        />
-                                        <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white px-3 py-2 text-gray-700 cursor-pointer hover:border-purple-500 transition">
-                                            <span>
-                                                {form.resumeName ? form.resumeName : "Choose a file..."}
-                                            </span>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 text-gray-400"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v8m0 0l-3-3m3 3l3-3M12 4v8"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </div>
-
-                                    {/* Show uploaded file with delete option */}
-                                    {form.resume && (
-                                        <div className="mt-3 flex items-center justify-between bg-gray-100 p-2 rounded-md border border-gray-300">
-                                            <a
-                                                href={form.resume}
-                                                download={form.resumeName}
-                                                className="text-gray-800 hover:text-purple-600 underline truncate max-w-xs"
-                                            >
-                                                {form.resumeName}
-                                            </a>
-                                            <button
-                                                type="button"
-                                                onClick={() => setForm({ ...form, resume: "", resumeName: "" })}
-                                                className="ml-3 px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
-                                            >
-                                                Delete
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-
-
-                            </>
-                        )}
-
+                <div
+                    className="
+                    bg-white  pt-2 mb-5
+                    flex gap-4 border-b-2 border-gray-200
+                    "
+                >
+                    <div className='mx-auto w-full flex gap-4'>
+                        {["About you", "Posted Jobs"].map((tab) => (
+                            <button
+                                key={tab}
+                                onClick={() => setActiveTab(tab)}
+                                className={`relative px-4 py-2 font-medium transition-colors duration-300
+                                    ${activeTab === tab ? "text-[#9743e4]" : "text-gray-500"}
+                                    `}
+                            >
+                                {tab}
+                                <span
+                                    className={`absolute left-0 -bottom-[2px] h-[2px] bg-[#9743e4] transition-all duration-300
+                                        ${activeTab === tab ? "w-full" : "w-0"}
+                                    `}
+                                />
+                            </button>
+                        ))}
 
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={saving}
-                        className="w-full bg-purple-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 disabled:opacity-60"
-                    >
-                        {saving ? "Updating..." : "Update Profile"}
-                    </button>
-                </form>
+                </div>
+
+                {
+                    activeTab === "About you" ? (
+                        <form onSubmit={handleSubmit} className="space-y-8 px-2">
+                            <div className={grid4}>
+                                {/* FULL NAME */}
+                                <div>
+                                    <label className={labelStyle}>Full Name</label>
+                                    <input name="fullName" value={form.fullName} onChange={handleChange} className={inputStyle} />
+                                </div>
+
+                                {/* EMAIL - READ ONLY */}
+                                <div>
+                                    <label className={labelStyle}>Email</label>
+                                    <input value={form.email} disabled className={disabledStyle} />
+                                </div>
+
+                                {/* PHONE */}
+                                <div>
+                                    <label className={labelStyle}>Phone Number</label>
+                                    <input name="phone" value={form.phone} onChange={handleChange} className={inputStyle} />
+                                </div>
+
+                                {/* LOCATION */}
+                                <div>
+                                    <label className={labelStyle}>Location</label>
+                                    <input name="location" value={form.location} onChange={handleChange} className={inputStyle} />
+                                </div>
+
+                                {/* QUALIFICATION */}
+                                <div>
+                                    <label className={labelStyle}>Qualification</label>
+                                    <input name="qualification" value={form.qualification} onChange={handleChange} className={inputStyle} />
+                                </div>
+
+                                {/* PROFILE TYPE */}
+                                <div>
+                                    <label className={labelStyle}>Profile Type</label>
+                                    <select name="careerType" value={form.careerType} onChange={handleChange} className={inputStyle}>
+                                        <option value="working">Working</option>
+                                        <option value="fresher">Fresher</option>
+                                        <option value="student">Student</option>
+                                    </select>
+                                </div>
+
+
+                                {/* STUDENT / FRESHER / WORKING sections */}
+                                {(form.careerType === "student" || form.careerType === "fresher") && (
+                                    <div>
+                                        <label className={labelStyle}>College Name</label>
+                                        <input name="college" value={form.college} onChange={handleChange} className={inputStyle} />
+                                    </div>
+                                )}
+
+                                {form.careerType === "student" && (
+                                    <div>
+                                        <label className={labelStyle}>Branch</label>
+                                        <input name="branch" value={form.branch} onChange={handleChange} className={inputStyle} />
+                                    </div>
+                                )}
+
+                                {form.careerType === "fresher" && (
+                                    <div>
+                                        <label className={labelStyle}>Skills/Summary</label>
+                                        <textarea name="skills" value={form.skills} onChange={handleChange} className={inputStyle} />
+                                    </div>
+                                )}
+
+                                {form.careerType === "working" && (
+                                    <>
+                                        <div>
+                                            <label className={labelStyle}>Years of Experience</label>
+                                            <input name="experienceYears" value={form.experienceYears} onChange={handleChange} className={inputStyle} />
+                                        </div>
+
+                                        <div>
+                                            <label className={labelStyle}>Current Company</label>
+                                            <input name="company" value={form.company} onChange={handleChange} className={inputStyle} />
+                                        </div>
+
+                                        <div>
+                                            <label className={labelStyle}>Work Location</label>
+                                            <input name="workinglocation" value={form.workinglocation} onChange={handleChange} className={inputStyle} />
+                                        </div>
+
+                                        <div>
+                                            <label className={labelStyle}>Working Skills / Summary</label>
+                                            <textarea name="skills" value={form.skills} onChange={handleChange} className={inputStyle} />
+                                        </div>
+                                        {/* RESUME UPLOAD */}
+                                        <div className="">
+                                            <label className={labelStyle}>Upload Resume (PDF/DOC, max 1MB)</label>
+
+                                            {/* File input styled as a text input with icon */}
+                                            <div className="mt-2 relative">
+                                                <input
+                                                    type="file"
+                                                    accept=".pdf,.doc,.docx"
+                                                    onChange={handleResumeUpload}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                />
+                                                <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white px-3 py-2 text-gray-700 cursor-pointer hover:border-purple-500 transition">
+                                                    <span>
+                                                        {form.resumeName ? form.resumeName : "Choose a file..."}
+                                                    </span>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="h-5 w-5 text-gray-400"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v8m0 0l-3-3m3 3l3-3M12 4v8"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            </div>
+
+                                            {/* Show uploaded file with delete option */}
+                                            {form.resume && (
+                                                <div className="mt-3 flex items-center justify-between bg-gray-100 p-2 rounded-md border border-gray-300">
+                                                    <a
+                                                        href={form.resume}
+                                                        download={form.resumeName}
+                                                        className="text-gray-800 hover:text-purple-600 underline truncate max-w-xs"
+                                                    >
+                                                        {form.resumeName}
+                                                    </a>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setForm({ ...form, resume: "", resumeName: "" })}
+                                                        className="ml-3 px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+
+
+                                    </>
+                                )}
+
+
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={saving}
+                                className="w-full bg-purple-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 disabled:opacity-60"
+                            >
+                                {saving ? "Updating..." : "Update Profile"}
+                            </button>
+                        </form>
+
+                    ) : (
+                        jobs.length === 0 ? (
+                            <p className="text-center text-gray-500 mt-10">You haven't posted any jobs yet.</p>
+                        ) : (
+                            jobs.map((job) => <div key={job.id} className="mb-3"><JobCard job={job} /></div>)
+                        )
+
+                    )
+
+                }
+
+
+
             </div>
-        </section>
+        </section >
     );
 }

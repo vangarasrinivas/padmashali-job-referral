@@ -40,6 +40,7 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
         jobCategory: initialData.jobCategory || "Private",
         applyUrl: initialData.applyUrl || "",
         description: initialData.description || "",
+        posted_by: 'admin', // For admin-created jobs
       });
     }
   }, [initialData]);

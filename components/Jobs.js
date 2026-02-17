@@ -10,7 +10,7 @@ import Link from "next/link";
 const PAGE_SIZE_AUTH = 15;
 const PAGE_SIZE_GUEST = 5;
 
-const Jobs = () => {
+const Jobs = ({reload}) => {
   const [activeTab, setActiveTab] = useState("Private");
   const { profile } = useCurrentUser();
 
@@ -22,6 +22,7 @@ const Jobs = () => {
   const [hasMore, setHasMore] = useState(true);
   const [totalJobs, setTotalJobs] = useState(0);
   const [loading, setLoading] = useState(false);
+  console.log({jobs})
 
   /* ---------------- LOAD JOBS ---------------- */
   const loadJobs = async ({ reset = false, category }) => {
@@ -57,6 +58,13 @@ const Jobs = () => {
     loadJobs({ reset: true, category: activeTab });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, isAuthenticated]);
+
+  //reload
+
+  useEffect(() => {
+    loadJobs({ reset: true, category: activeTab });
+    // eslint-disable-next-line
+  }, [reload]);
 
   /* ---------------- LOAD MORE ---------------- */
   const loadMoreJobs = () => {
