@@ -227,7 +227,7 @@ export default function Home() {
                   </div>
 
                   <a
-                    href="upi://pay?pa=8919685595-2@ybl&pn=Padmashali%20Trust"
+                    href="upi://pay?pa=8919685595-2@ybl&pn=Padmashali%20Trust&cu=INR&tn=Donation%20for%20Padmashali%20Trust"
                     className="mt-4 px-4 py-2 text-xs sm:text-sm font-medium text-white bg-gradient-to-r from-[#9743e4] to-[#7a33c9] rounded-lg hover:opacity-90 transition md:hidden inline-block"
                   >
                     Donate Now
