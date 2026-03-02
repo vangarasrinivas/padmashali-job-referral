@@ -7,7 +7,7 @@ import BackToTop from "../components/BackToTop";
 import ContactSection from "../components/ContactSection";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import Link from "next/link";
-import { FaCheckCircle, FaPlus } from "react-icons/fa";
+import { FaCheckCircle, FaCopy, FaPlus } from "react-icons/fa";
 import JobForm from "@/components/JobForm";
 import {
   getJobs,
@@ -74,6 +74,14 @@ export default function Home() {
     }
   };
 
+
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("8919685595-2@ybl");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
 
 
@@ -224,6 +232,21 @@ export default function Home() {
                       alt="Padmashali Logo"
                       className="w-32 h-36"
                     />
+                  </div>
+                  <div className="mt-3 flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-600">
+
+                    <span className="break-all">
+                      UPI ID: 8919685595-2@ybl
+                    </span>
+
+                    <button
+                      onClick={handleCopy}
+                      className="flex items-center gap-1 text-[#9743e4] hover:underline"
+                    >
+                      <FaCopy className="text-sm" />
+                      {copied ? "Copied ✓" : "Copy"}
+                    </button>
+
                   </div>
 
                   <a

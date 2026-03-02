@@ -16,7 +16,7 @@ const Jobs = ({ reload }) => {
   const [activeTab, setActiveTab] = useState("Private");
   const { profile } = useCurrentUser();
 
-  const isAuthenticated = Boolean(profile);
+  const isAuthenticated = Boolean(profile?.emailVerified);
   const PAGE_SIZE = isAuthenticated ? PAGE_SIZE_AUTH : PAGE_SIZE_GUEST;
 
   const [jobs, setJobs] = useState([]);
