@@ -57,7 +57,7 @@ export default function AboutPage() {
         `block h-0.5 bg-white absolute bottom-[-4px] left-0 transition-all duration-300
      ${active ? "w-full" : "w-0 group-hover:w-full"}`;
 
-    const isUser = user && profile?.role === "user";
+    const isUser = user && profile?.emailVerified && profile?.role === "user";
 
     const isActive = (key) =>
         pathname === `/${key}` || (pathname === "/" && key === "home");

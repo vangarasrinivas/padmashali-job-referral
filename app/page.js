@@ -19,7 +19,6 @@ import {
 import ToastAlert from "@/components/ToastAlert";
 export default function Home() {
   const { profile } = useCurrentUser();
-  console.log("User profile:", profile);
 
   const [open, setOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -123,7 +122,7 @@ export default function Home() {
                   </span>
                 </h1>
 
-                {!profile ? (
+                {!profile?.emailVerified ? (
                   <Link
                     href="/login"
                     className="inline-flex px-5 py-2.5 mt-5 rounded-full bg-gradient-to-r from-[#9743e4] to-[#7a33c9] text-white font-medium"

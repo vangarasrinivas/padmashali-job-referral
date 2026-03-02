@@ -43,7 +43,7 @@ const Navbar = () => {
     setProfile(null); // clear profile immediately
   };
 
-  const isUser = user && profile?.role === "user";
+  const isUser = user && profile?.emailVerified && profile?.role === "user";
 
   const underline = (active) =>
     `block h-0.5 bg-white absolute bottom-[-4px] left-0 transition-all duration-300
