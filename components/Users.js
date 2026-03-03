@@ -135,6 +135,7 @@ export default function AdminUsersPage() {
                             <th className="px-4 py-3 font-bold text-gray-700">Location</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Career</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Resume</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Exp.</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Joined date</th>
                             <th className="px-4 py-3 font-bold text-gray-700 text-center">Actions</th>
                         </tr>
@@ -169,6 +170,7 @@ export default function AdminUsersPage() {
                                             <span className="text-gray-400 italic">No resume</span>
                                         )}
                                     </td>
+                                    <td className="px-4 py-3 text-gray-600 text-sm capitalize">{u.experienceYears || "N/A"}</td>
                                     <td className="px-4 py-3 text-gray-600 text-sm capitalize">{formatDate(u.createdAt)}</td>
 
                                     <td className="px-4 py-3 flex justify-center gap-4">
