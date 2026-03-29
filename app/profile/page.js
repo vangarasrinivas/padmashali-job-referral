@@ -134,10 +134,10 @@ export default function ProfilePage() {
 
 
     const [jobs, setJobs] = useState([]);
-    console.log('jobs:', jobs);
+
 
     const getJobsByUser = async (userId) => {
-        console.log
+    
         const q = query(
             collection(db, "jobs"),
             where("posted_by_uid", "==", userId),
@@ -152,16 +152,16 @@ export default function ProfilePage() {
         }));
     };
     const loadUserJobs = async (uid) => {
-        console.log('Loading jobs for user:', uid);
+        
         const fetchedJobs = await getJobsByUser(uid);
-        console.log('Fetched jobs:', fetchedJobs);
+        
         setJobs(fetchedJobs);
     }
 
     useEffect(() => {
-        console.log("user?.uid", user?.uid);
+        
         if (user?.uid) {
-            console.log("calling")
+            
             loadUserJobs(user?.uid);
         }
 

@@ -7,6 +7,7 @@ import BackToTop from '../../components/BackToTop';
 import AdminUsers from '../../components/Users';
 import AdminAnalytics from '../../components/AdminAnalytics';
 import Contacts from '../../components/Contacts';
+import AdminSettingsPage from '../../components/Settings';
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("Jobs");
@@ -26,7 +27,7 @@ const AdminPage = () => {
         "
       >
         <div className='max-w-6xl mx-auto w-full flex gap-4'>
-          {["Jobs", "Users", "Contacts", "Visitors"].map((tab) => (
+          {["Jobs", "Users", "Contacts", "Visitors", "Settings"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -49,7 +50,6 @@ const AdminPage = () => {
 
       <div className='max-w-6xl mx-auto mt-3'>
 
-
         <div>
           {
             activeTab === "Jobs" ? (
@@ -65,7 +65,12 @@ const AdminPage = () => {
               <div>
                 <Contacts />
               </div>
-            ) : (
+            ) : activeTab === "Settings" ? (
+              <div>
+                <AdminSettingsPage />
+                
+              </div>
+            ): (
               <div>
                 {/* Render Users Management Component */}
                 <AdminUsers />

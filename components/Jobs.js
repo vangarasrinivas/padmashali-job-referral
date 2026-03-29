@@ -8,6 +8,7 @@ import { FaLock } from "react-icons/fa";
 import Link from "next/link";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getSettings } from "../lib/jobs";
 
 const PAGE_SIZE_AUTH = 15;
 const PAGE_SIZE_GUEST = 5;
@@ -25,6 +26,7 @@ const Jobs = ({ reload }) => {
   const [totalJobs, setTotalJobs] = useState(0);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
+  const [settings, setSettings] = useState({});
 
 
   /* ---------------- LOAD JOBS ---------------- */
@@ -100,18 +102,32 @@ const Jobs = ({ reload }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (activeTab === 'Professionals') {
-  //     fetchUsers('working');
-  //   }
-  // }, [activeTab]);
+  useEffect(() => {
+    if (activeTab === 'Professionals') {
+      fetchUsers('working');
+    }
+  }, [activeTab]);
 
+
+    useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await getSettings();
+        setSettings({showProfessionals:data?.showProfessionals} || {});
+      } catch (err) {
+        console.error(err);
+        setSettings({});
+      }
+    };
+    load();
+  }, []);
+  console.log("Settings in Jobs component:", settings);
 
   return (
     <div className="w-full bg-gray-100 min-h-screen mt-5 rounded-md shadow-md">
       {/* ---------------- TABS ---------------- */}
       <div className="sticky top-16 z-30 bg-white px-2 md:px-5 pt-3 flex gap-4 border-b-2 border-gray-200">
-        {["Private", "Government"].map((tab) => (
+        {["Private", "Government", settings?.showProfessionals && 'Professionals'].filter(Boolean).map((tab) => (
           <button
             key={tab}
             onClick={() => {

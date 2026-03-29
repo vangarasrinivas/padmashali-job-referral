@@ -17,6 +17,8 @@ import {
   deleteJob,
 } from "@/lib/jobs";
 import ToastAlert from "@/components/ToastAlert";
+import SettingsCarousel from "../components/Carousel";
+import Carousel from "../components/Carousel";
 export default function Home() {
   const { profile } = useCurrentUser();
 
@@ -261,8 +263,12 @@ export default function Home() {
             </div>
           </div>
 
-
         </section>
+
+        
+        <div>
+          <Carousel />
+        </div>
 
         <section id="jobs" className="mt-5">
           <div className="flex justify-center">

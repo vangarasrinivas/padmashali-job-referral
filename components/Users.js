@@ -134,6 +134,7 @@ export default function AdminUsersPage() {
                             <th className="px-4 py-3 font-bold text-gray-700">Phone</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Location</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Career</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">company</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Resume</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Exp.</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Joined date</th>
@@ -153,6 +154,7 @@ export default function AdminUsersPage() {
                                     <td className="px-4 py-3 text-gray-600">{u.phone}</td>
                                     <td className="px-4 py-3 text-gray-600">{u.location}</td>
                                     <td className="px-4 py-3 text-gray-600">{u.careerType}</td>
+                                    <td className="px-4 py-3 text-gray-600">{u.company}</td>
                                     {/* Resume Column */}
                                     {/* Resume Column */}
                                     <td className="px-4 py-3 text-gray-600 text-center">
