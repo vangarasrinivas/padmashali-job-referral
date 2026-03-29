@@ -83,13 +83,13 @@ export default function SettingsCarousel() {
       onMouseEnter={stopAutoSlide}
       onMouseLeave={startAutoSlide}
     >
-        {
+        {/* {
             settings?.images?.length > 0 && (
                 <h2 className="text-xl font-semibold text-gray-700 mb-3">
                     Featured
                 </h2>
             )
-        }
+        } */}
 
       {/* ================= IMAGE ================= */}
       <div className="flex justify-center">
