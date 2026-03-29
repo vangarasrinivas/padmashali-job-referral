@@ -138,6 +138,7 @@ export default function AdminUsersPage() {
                             <th className="px-4 py-3 font-bold text-gray-700">Resume</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Exp.</th>
                             <th className="px-4 py-3 font-bold text-gray-700">Joined date</th>
+                            <th className="px-4 py-3 font-bold text-gray-700">Email Verified</th>
                             <th className="px-4 py-3 font-bold text-gray-700 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -174,6 +175,7 @@ export default function AdminUsersPage() {
                                     </td>
                                     <td className="px-4 py-3 text-gray-600 text-sm capitalize">{u.experienceYears || "N/A"}</td>
                                     <td className="px-4 py-3 text-gray-600 text-sm capitalize">{formatDate(u.createdAt)}</td>
+                                    <td className="px-4 py-3 text-gray-600 text-sm capitalize">{u?.emailVerified ? "Verified" : "Not Verified"}</td>
 
                                     <td className="px-4 py-3 flex justify-center gap-4">
                                         <button
