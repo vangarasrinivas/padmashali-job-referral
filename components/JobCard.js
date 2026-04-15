@@ -7,6 +7,7 @@ import {
   FaRupeeSign,
   FaGraduationCap,
   FaChevronDown,
+  FaEnvelope,
 } from "react-icons/fa";
 import { formatPostedDate } from "@/lib/utils";
 
@@ -166,6 +167,17 @@ const JobCard = ({ job }) => {
               }`}
           />
         </button>
+      )}
+
+      {job?.hrMailId && (
+        <div className="flex items-center gap-2 mt-4">
+          <FaEnvelope className="text-gray-400" />
+          <p className="text-sm">
+            <span className="font-medium">Send Mail to HR:</span> <a className="text-[#9743e4]" href={`mailto:${job.hrMailId}`}>
+              {job.hrMailId}
+            </a>
+          </p>
+        </div>
       )}
 
       {/* CTA */}

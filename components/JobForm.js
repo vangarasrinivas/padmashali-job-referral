@@ -23,6 +23,7 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
     jobType: "Full Time",
     jobCategory: "Private",
     applyUrl: "",
+    hrMailId: "",
     description: "",
   });
 
@@ -39,6 +40,7 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
         jobType: initialData.jobType || "Full Time",
         jobCategory: initialData.jobCategory || "Private",
         applyUrl: initialData.applyUrl || "",
+        hrMailId: initialData.hrMailId || "",
         description: initialData.description || "",
         posted_by: 'admin', // For admin-created jobs
       });
@@ -133,9 +135,20 @@ const JobForm = ({ initialData, onSubmit, loading }) => {
             placeholder="https://company.com/careers"
           />
         </div>
+        {/* HR mail ID */}
+        <div className="flex flex-col">
+          <label className={labelClass}>HR Mail ID</label>
+          <input
+            name="hrMailId"
+            value={form.hrMailId}
+            onChange={handleChange}
+            className={inputClass}
+            placeholder="hrmalid@gmail.com"
+          />
+        </div>
 
         {/* Skills */}
-        <div className="flex flex-col lg:col-span-3">
+        <div className="flex flex-col lg:col-span-2">
           <label className={labelClass}>Skills</label>
           <textarea
             name="skills"
